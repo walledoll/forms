@@ -1,6 +1,6 @@
 import { User } from "@/entities/model/users"
 
-const API_URL = 'https://forms-server-2gqx.onrender.com/api/v1';
+const API_URL = '/api/v1';
 
 export  const fetchUsers = async():Promise<User[]> => {
   const res = await fetch(`${API_URL}/users`);
@@ -13,7 +13,7 @@ export const fetchUser = async(id: number): Promise<User> => {
   if(!res.ok) throw new Error(`Error fetch ${id} user`);
   return res.json();
 }
-
+  
 export const createUser = async (user: User): Promise<User> => {
   const res = await fetch(`${API_URL}/users`, {
     method: 'POST',
@@ -45,7 +45,7 @@ export const login = async (user:Pick<User, "password" | "email">):Promise<Pick<
   const res = await fetch(`${API_URL}/auth/login`, {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify(user);
+    body: JSON.stringify(user)
   });
   if(!res.ok) throw new Error(`Error login ${user.email} login`);
   return res.json();

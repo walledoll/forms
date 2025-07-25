@@ -1,6 +1,6 @@
 import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query'
-import { createUser, fetchUser, fetchUsers, updateUser } from '../api/users';
-import { User } from '@/entities/model/users';
+import { createUser, deleteUser, fetchUser, fetchUsers, getMe, login, logout, updateUser } from '../api/users';
+import { useNavigate} from 'react-router-dom';
 
 export const getUsers = () => {
   return useQuery(
@@ -49,11 +49,49 @@ export const useDeleteUser = () => {
   const queryClient = useQueryClient();
   return useMutation(
     {
-      mutationFn: updateUser,
+      mutationFn: deleteUser,
       onSuccess: () => {
         queryClient.invalidateQueries({queryKey: ['users']});
       }
     }
   );
+}
+
+export const useLogin = () => {
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
+  return useMutation(
+    {
+      mutationFn: login,
+      onSuccess: () => {
+        queryClient.invalidateQueries({queryKey: ['auth', 'me']})
+        navigate('/');
+      } 
+    }
+  )
+}
+
+export const useLogout = () => {
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
+  return useMutation(
+    {
+      mutationFn: logout,
+      onSuccess: () => {
+        queryClient.removeQueries({queryKey: ['auth']});
+        queryClient.invalidateQueries({queryKey: ['auth', 'me']});
+        navigate('/login');
+      }
+    }
+  )
+}
+
+export const useAuthMe = () => {
+  return useQuery(
+    {
+      queryFn: getMe,
+      queryKey: ['auth', 'me'], 
+    }
+  )
 }
 
