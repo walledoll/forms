@@ -1,6 +1,5 @@
 import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query'
 import { createUser, deleteUser, fetchUser, fetchUsers, getMe, login, logout, updateUser } from '../api/users';
-import { useNavigate} from 'react-router-dom';
 
 export const getUsers = () => {
   return useQuery(
@@ -59,13 +58,11 @@ export const useDeleteUser = () => {
 
 export const useLogin = () => {
   const queryClient = useQueryClient();
-  const navigate = useNavigate();
   return useMutation(
     {
       mutationFn: login,
       onSuccess: () => {
         queryClient.invalidateQueries({queryKey: ['auth', 'me']})
-        navigate('/');
       } 
     }
   )
@@ -73,14 +70,12 @@ export const useLogin = () => {
 
 export const useLogout = () => {
   const queryClient = useQueryClient();
-  const navigate = useNavigate();
   return useMutation(
     {
       mutationFn: logout,
       onSuccess: () => {
         queryClient.removeQueries({queryKey: ['auth']});
         queryClient.invalidateQueries({queryKey: ['auth', 'me']});
-        navigate('/login');
       }
     }
   )

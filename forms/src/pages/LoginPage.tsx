@@ -1,9 +1,9 @@
-import Login from '@/widgets/Login'
+import Login from '@/widgets/UserLogin'
 
 export default function LoginPage() {
   return (
     <div className='flex justify-center items-center h-[100vh]'>
-        <Login state="Login"/>
+      <Login/>
     </div>
   )
 }
