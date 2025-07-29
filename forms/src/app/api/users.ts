@@ -8,7 +8,7 @@ export  const fetchUsers = async():Promise<User[]> => {
   return res.json();
 }
 
-export const fetchUser = async(id: number): Promise<User> => {
+export const fetchUser = async(id: string): Promise<User> => {
   const res = await fetch(`${API_URL}/users/${id}`);
   if(!res.ok) throw new Error(`Error fetch ${id} user`);
   return res.json();
@@ -34,7 +34,7 @@ export const updateUser = async (user: Partial<User>): Promise<Partial<User>> =>
   return res.json();
 }
 
-export const deleteUser = async (id: number): Promise<void> => {
+export const deleteUser = async (id: string): Promise<void> => {
   const res = await fetch(`${API_URL}/users/${id}`, {
     method: 'DELETE',
   });

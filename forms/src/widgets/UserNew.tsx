@@ -106,7 +106,7 @@ export default function UserNew() {
                         <Label htmlFor="date-picker" className="px-1">
                           Birth Date
                         </Label>
-                        <Popover open={open} onOpenChange={setOpen} {...register('birthDate')}>
+                        <Popover open={open} onOpenChange={setOpen} >
                           <PopoverTrigger asChild>
                             <Button
                               variant="outline"

@@ -18,7 +18,6 @@ export default function UserItem({user}: UserProps) {
         <TableCell>{user.email}</TableCell>
         <TableCell>{user.telephone}</TableCell>
         <TableCell>{user.birthDate}</TableCell>
-        <TableCell>{user.userAgreement}</TableCell>
     </TableRow>
   )
 }

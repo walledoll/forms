@@ -4,6 +4,7 @@ import LoginPage from "@/pages/LoginPage";
 import NewUser from "@/pages/NewUser";
 import Main from "@/pages/Main";
 import EditUser from "@/pages/EditUser";
+import { SidebarProvider, SidebarTrigger } from "@/shared/ui/sidebar";
 
 
 function App() {
@@ -12,6 +13,7 @@ const client = new  QueryClient();
   return (
     <>
     <QueryClientProvider client={client}>
+      
       <BrowserRouter>
         <Routes>
           <Route path='/login' element={<LoginPage/>} />

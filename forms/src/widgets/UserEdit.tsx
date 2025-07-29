@@ -1,4 +1,4 @@
-import { useUpdateUser } from "@/app/hooks/useUsers";
+import { useDeleteUser, useUpdateUser } from "@/app/hooks/useUsers";
 import { UserSchema } from "@/app/schema/validation";
 import { User } from "@/entities/model/users";
 import { Button } from "@/shared/ui/button";
@@ -15,8 +15,14 @@ import z from "zod";
 
 type UserSchema = z.infer<typeof UserSchema>;
 
-export default function UserEdit(user: User) {
-  const update = useUpdateUser();
+interface UserEditProps{
+  user: User,
+  onDelete: () => void;
+  onCancel: () => void;
+}
+
+export default function UserEdit({user, onDelete, onCancel}: UserEditProps) {
+  const {mutate: update} = useUpdateUser();
 
   const [open, setOpen] = useState(false);
   const [date, setDate] = useState<Date | undefined>(undefined);
@@ -51,7 +57,7 @@ export default function UserEdit(user: User) {
       if(!birthDate){
         throw new Error('Wrong date format');
       }
-      update.mutate({...data, birthDate});
+      update({...data, birthDate: birthDate});
     }
     catch(error){
       console.log(error);
@@ -80,10 +86,8 @@ export default function UserEdit(user: User) {
                   </div>
                   <div>
                     <Label>Email<span className="text-red-500">*</span></Label>
-                    <Input placeholder="example@gmail.com" disabled {...register('email')}/>
-                     {formState.errors.email &&
-                      <div className="text-red-500 text-sm">{formState.errors.email.message}</div>
-                    }
+                    <Input placeholder="example@gmail.com" disabled />
+                     
                   </div>
                   <div>
                     <div className="flex gap-4">
@@ -91,7 +95,7 @@ export default function UserEdit(user: User) {
                         <Label htmlFor="date-picker" className="px-1">
                           Birth Date
                         </Label>
-                        <Popover open={open} onOpenChange={setOpen} {...register('birthDate')}>
+                        <Popover open={open} onOpenChange={setOpen}>
                           <PopoverTrigger asChild>
                             <Button
                               variant="outline"
@@ -129,9 +133,6 @@ export default function UserEdit(user: User) {
                         />
                       </div>
                     </div>
-                    {formState.errors.birthDate &&
-                      <div className="text-red-500 text-sm">{formState.errors.birthDate.message}</div>
-                    }
                   </div>
                   <div>
                     <Label>Phone Number<span className="text-red-500">*</span></Label>
@@ -144,7 +145,14 @@ export default function UserEdit(user: User) {
                     <Label >Password<span className="text-red-500">*</span></Label>
                     <Input type="password" disabled/>
                   </div>
-                  <Button type="submit">Edit</Button>
+                  <div className="flex justify-around">
+                    <Button onClick={onCancel} variant='outline'>Cancel</Button>
+                    {user.id  === "1" ? 
+                      <></>:
+                      <Button onClick={onDelete} variant='destructive'>Delete</Button>}
+                    <Button  type="submit">Edit</Button>
+                  </div>
+
                 </form>
               </CardContent>
     </Card>

@@ -8,13 +8,12 @@ type UserTableProps = {
 
 export default function UserTable({users}: UserTableProps) {
   return (
-    <Table>
+    <Table className='w-[95vw]'>
         <TableRow>
             <TableCell>Fullname</TableCell>
             <TableCell>Email</TableCell>
             <TableCell>Phone</TableCell>
             <TableCell>Birthdate</TableCell>
-            <TableCell>Agreement</TableCell>
         </TableRow>
         {users.map((user) => <UserItem user={user}></UserItem>)}
     </Table>

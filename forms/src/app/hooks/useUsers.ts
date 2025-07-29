@@ -1,5 +1,6 @@
 import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query'
 import { createUser, deleteUser, fetchUser, fetchUsers, getMe, login, logout, updateUser } from '../api/users';
+import { useNavigate } from 'react-router-dom';
 
 export const getUsers = () => {
   return useQuery(
@@ -10,7 +11,7 @@ export const getUsers = () => {
   );    
 } 
 
-export const getUserById = (id: number) => {
+export const getUserById = (id: string) => {
   return useQuery(
     {
       queryKey: ['users', id],  
@@ -22,12 +23,15 @@ export const getUserById = (id: number) => {
 
 export const useUpdateUser = () => {
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
   return useMutation(
     {
       mutationFn: updateUser,
       onSuccess: () => {
         queryClient.invalidateQueries({queryKey: ['users']});
-      }
+        navigate('/');
+      },
+      onError: (error) => {console.log(error)}
     }
   );
 }
@@ -70,12 +74,14 @@ export const useLogin = () => {
 
 export const useLogout = () => {
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
   return useMutation(
     {
       mutationFn: logout,
       onSuccess: () => {
         queryClient.removeQueries({queryKey: ['auth']});
         queryClient.invalidateQueries({queryKey: ['auth', 'me']});
+        navigate('/login');
       }
     }
   )
