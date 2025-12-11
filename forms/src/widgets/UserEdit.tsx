@@ -11,18 +11,31 @@ import { Label } from "@radix-ui/react-label";
 import { ChevronDownIcon } from "lucide-react";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { useNavigate, useParams } from "react-router-dom";
 import z from "zod";
 
-type UserSchema = z.infer<typeof UserSchema>;
+export const EditUserSchema = z.object({
+  name: z.string(),
+  surName: z.string(),
+  telephone: z.string(),
+  email: z.string().email(),
+});
+
+
+type UserSchema = z.infer<typeof EditUserSchema>;
 
 interface UserEditProps{
   user: User,
   onDelete: () => void;
   onCancel: () => void;
+  onEdit?: (data: UserSchema) => void;
 }
 
-export default function UserEdit({user, onDelete, onCancel}: UserEditProps) {
-  const {mutate: update} = useUpdateUser();
+export default function UserEdit({user, onDelete, onCancel, onEdit}: UserEditProps) {
+
+  const {mutateAsync: update} = useUpdateUser();
+  const {id} = useParams();
+  const navigate = useNavigate();
 
   const [open, setOpen] = useState(false);
   const [date, setDate] = useState<Date | undefined>(undefined);
@@ -30,18 +43,18 @@ export default function UserEdit({user, onDelete, onCancel}: UserEditProps) {
 
   const {register, handleSubmit, formState} = useForm<UserSchema>(
     {
-      resolver: zodResolver(UserSchema), 
-      mode: 'onChange',
+      resolver: zodResolver(EditUserSchema), 
+      mode: 'onSubmit',
       defaultValues: {
         name: user.name,
         surName: user.surName,
         email: user.email,
         telephone: user.telephone,
-        password: user.password,
-        birthDate: user.birthDate
       }
     }
   )
+  console.log("Errors:", formState.errors);
+
 
   const combineDateTime = (selectedDate: Date | undefined, selectedTime: string): string | null => {
     if (!selectedDate) return null;
@@ -51,18 +64,41 @@ export default function UserEdit({user, onDelete, onCancel}: UserEditProps) {
     return combinedDate.toISOString();  
   };
 
-  const onEditSubmit: SubmitHandler<UserSchema> = async (data) => {
-    try{
-      const birthDate = combineDateTime(date, time);
-      if(!birthDate){
-        throw new Error('Wrong date format');
-      }
-      update({...data, birthDate: birthDate});
-    }
-    catch(error){
-      console.log(error);
-    }
+const onEditSubmit: SubmitHandler<UserSchema> = async (data) => {
+  console.log('Form data:', data); // 👈 ЛОГИРУЕМ ДАННЫЕ ИЗ ФОРМЫ
+
+  if (!user?.id) {
+    console.error('User ID is missing');
+    return;
   }
+
+  const birthDate = combineDateTime(date, time);
+  if (!birthDate) {
+    console.error('Invalid birth date');
+    return;
+  }
+
+  const updatedUser: Partial<User> = {
+    name: data.name,
+    surName: data.surName,
+    fullName: data.surName + ' ' + data.name,
+    telephone: data.telephone,
+    birthDate: birthDate, // ✅ ISO строка
+  };
+
+  console.log('Updating user with:', { id: user.id, user: updatedUser }); // 👈 ЛОГИРУЕМ ПАРАМЕТРЫ ДЛЯ UPDATE
+
+  try {
+    await update({ id: user.id, user: updatedUser }, {
+      onSuccess: () => {
+        navigate('/');
+      }
+    });
+    console.log('✅ Update successful');
+  } catch (error) {
+    console.error('❌ Update failed:', error); // 👈 ВСЕГДА ЛОГИРУЙТЕ ОШИБКИ!
+  }
+};
 
 
   return (
@@ -146,10 +182,10 @@ export default function UserEdit({user, onDelete, onCancel}: UserEditProps) {
                     <Input type="password" disabled/>
                   </div>
                   <div className="flex justify-around">
-                    <Button onClick={onCancel} variant='outline'>Cancel</Button>
+                    <Button type="button" onClick={onCancel} variant='outline'>Cancel</Button>
                     {user.id  === "1" ? 
                       <></>:
-                      <Button onClick={onDelete} variant='destructive'>Delete</Button>}
+                      <Button type="button" onClick={onDelete} variant='destructive'>Delete</Button>}
                     <Button  type="submit">Edit</Button>
                   </div>
 

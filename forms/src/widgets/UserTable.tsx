@@ -1,21 +1,30 @@
 import { User } from '@/entities/model/users'
 import UserItem from '@/entities/ui/UserItem'
-import { Table, TableCell, TableRow } from '@/shared/ui/table'
+import { Table, TableCell, TableHead, TableHeader, TableRow, TableBody } from '@/shared/ui/table'
 
 type UserTableProps = {
-    users: User[];
+  users: User[];
 }
 
-export default function UserTable({users}: UserTableProps) {
+export default function UserTable({ users }: UserTableProps) {
   return (
-    <Table className='w-[95vw]'>
+    <Table className="w-[95vw]">
+      
+      <TableHeader>
         <TableRow>
-            <TableCell>Fullname</TableCell>
-            <TableCell>Email</TableCell>
-            <TableCell>Phone</TableCell>
-            <TableCell>Birthdate</TableCell>
+          <TableHead>Fullname</TableHead>
+          <TableHead>Email</TableHead>
+          <TableHead>Phone</TableHead>
+          <TableHead>Birthdate</TableHead>
         </TableRow>
-        {users.map((user) => <UserItem user={user}></UserItem>)}
+      </TableHeader>
+
+      <TableBody>
+        {users.map((user) => (
+          <UserItem key={user.id} user={user} />
+        ))}
+      </TableBody>
+
     </Table>
   )
 }

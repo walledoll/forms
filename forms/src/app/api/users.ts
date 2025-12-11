@@ -24,8 +24,8 @@ export const createUser = async (user: Omit<User, 'id'>): Promise<Omit<User, 'id
   return res.json();
 }
 
-export const updateUser = async (user: Partial<User>): Promise<Partial<User>> => {
-  const res = await fetch(`${API_URL}/users/${user.id}`, {
+export const updateUser = async ({ id, user }: { id: string; user: Partial<User> }) => {
+  const res = await fetch(`${API_URL}/users/${id}`, {
     method: 'PATCH',
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify(user),

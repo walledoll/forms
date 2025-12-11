@@ -1,7 +1,7 @@
 import { getUserById, useDeleteUser } from '@/app/hooks/useUsers'
-import { User } from '@/entities/model/users';
 import UserEdit from '@/widgets/UserEdit';
 import { useNavigate, useParams } from 'react-router-dom';
+
 
 export default function EditUser() {
   const {id} = useParams();

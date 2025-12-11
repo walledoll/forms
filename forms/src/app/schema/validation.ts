@@ -22,8 +22,6 @@ export const UserSchema = z.object({
   confirmPassword: z
     .string()
     .min(5, 'Repeat your password'),
-  birthDate: z
-    .string(),
   telephone: z
     .string()
     .regex(/^\+?[\d\s\-\(\)]+$/, 'Invalid phone number format')
