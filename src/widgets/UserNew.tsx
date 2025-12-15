@@ -37,7 +37,6 @@ export default function UserNew() {
         email: '',
         telephone: '',
         password: '',
-        birthDate: '',
         userAgreement : false,
         employment: '',
       }
@@ -75,7 +74,7 @@ export default function UserNew() {
   }
 
   return (
-    <Card>
+    <Card className="w-full m-3 p-3">
        <CardHeader className="text-center">Create User</CardHeader>
               <CardContent>
                 <form className="grid grid-cols-1 gap-3"  onSubmit={handleSubmit(onCreateSubmit)}>
@@ -144,9 +143,6 @@ export default function UserNew() {
                         />
                       </div>
                     </div>
-                    {formState.errors.birthDate &&
-                      <div className="text-red-500 text-sm">{formState.errors.birthDate.message}</div>
-                    }
                   </div>
                   <div>
                     <Label>Phone Number<span className="text-red-500">*</span></Label>
@@ -201,7 +197,6 @@ export default function UserNew() {
                                 checked={field.value}
                                 onCheckedChange={field.onChange} />;
                         }}
-
                     />
                     {formState.errors.userAgreement && (
                          <p className="text-red-500 text-sm">{formState.errors.userAgreement.message}</p>

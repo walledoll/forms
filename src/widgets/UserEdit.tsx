@@ -1,4 +1,4 @@
-import { useDeleteUser, useUpdateUser } from "@/app/hooks/useUsers";
+import { useUpdateUser } from "@/app/hooks/useUsers";
 import { UserSchema } from "@/app/schema/validation";
 import { User } from "@/entities/model/users";
 import { Button } from "@/shared/ui/button";
@@ -11,7 +11,7 @@ import { Label } from "@radix-ui/react-label";
 import { ChevronDownIcon } from "lucide-react";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import z from "zod";
 
 export const EditUserSchema = z.object({
@@ -28,17 +28,15 @@ interface UserEditProps{
   user: User,
   onDelete: () => void;
   onCancel: () => void;
-  onEdit?: (data: UserSchema) => void;
 }
 
-export default function UserEdit({user, onDelete, onCancel, onEdit}: UserEditProps) {
+export default function UserEdit({ user, onDelete, onCancel }: UserEditProps) {
 
   const {mutateAsync: update} = useUpdateUser();
-  const {id} = useParams();
   const navigate = useNavigate();
 
   const [open, setOpen] = useState(false);
-  const [date, setDate] = useState<Date | undefined>(undefined);
+  const [date, setDate] = useState<Date | undefined>(user.birthDate ? new Date(user.birthDate) : undefined);
   const [time, setTime] = useState<string>('10:30:00');
 
   const {register, handleSubmit, formState} = useForm<UserSchema>(
@@ -102,7 +100,7 @@ const onEditSubmit: SubmitHandler<UserSchema> = async (data) => {
 
 
   return (
-    <Card>
+    <Card className="w-full p-3 m-3">
        <CardHeader className="text-center">Edit User</CardHeader>
               <CardContent>
                 <form className="grid grid-cols-1 gap-3"  onSubmit={handleSubmit(onEditSubmit)}>

@@ -26,6 +26,7 @@ export default function Login(){
       navigate('/');
     }
     catch(error) {
+      console.log(error);
       loginForm.setError('root', {
         type: 'manual',
         message: 'Invalid email or password'
@@ -40,14 +41,14 @@ export default function Login(){
         <form className="grid grid-cols-1 gap-3" onSubmit= {loginForm.handleSubmit(onLoginSubmit)}>
           <div>
             <Label>Email</Label>
-            <Input  {...loginForm.register('email')} type="email" />
+            <Input placeholder="admin@inno.tech.ru"  {...loginForm.register('email')} type="email" />
             {loginForm.formState.errors.email && 
               <div className="text-red-500 text-sm">{loginForm.formState.errors.email.message}</div>
             }
           </div>
           <div>
             <Label>Password</Label>
-            <Input {...loginForm.register('password')} type="password" />
+            <Input placeholder="admin" {...loginForm.register('password')} type="password" />
             {loginForm.formState.errors.password &&
               <div className="text-red-500 text-sm">{loginForm.formState.errors.password.message}</div>
             }

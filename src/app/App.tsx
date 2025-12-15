@@ -4,7 +4,6 @@ import LoginPage from "@/pages/LoginPage";
 import NewUser from "@/pages/NewUser";
 import Main from "@/pages/Main";
 import EditUser from "@/pages/EditUser";
-import { SidebarProvider, SidebarTrigger } from "@/shared/ui/sidebar";
 
 
 function App() {

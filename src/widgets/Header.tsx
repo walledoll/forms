@@ -1,6 +1,6 @@
 
 import { LogOut } from 'lucide-react';
-import { Button } from './button';
+import { Button } from '../shared/ui/button';
 
 interface HeaderProps{
     onClick: () => void;

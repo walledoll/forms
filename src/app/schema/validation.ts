@@ -24,7 +24,7 @@ export const UserSchema = z.object({
     .min(5, 'Repeat your password'),
   telephone: z
     .string()
-    .regex(/^\+?[\d\s\-\(\)]+$/, 'Invalid phone number format')
+    .regex(/^\+?[\d\s\-()]+$/, 'Invalid phone number format')
     .min(7, 'Phone number is too short')
     .max(15, 'Phone number is too long')
   ,

@@ -2,7 +2,7 @@ import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query'
 import { createUser, deleteUser, fetchUser, fetchUsers, getMe, login, logout, updateUser } from '../api/users';
 import { useNavigate } from 'react-router-dom';
 
-export const getUsers = () => {
+export const useGetUsers = () => {
   return useQuery(
     {
       queryKey: ['users'], 
@@ -11,7 +11,7 @@ export const getUsers = () => {
   );    
 } 
 
-export const getUserById = (id: string) => {
+export const useGetUserById = (id: string) => {
   return useQuery(
     {
       queryKey: ['users', id],  

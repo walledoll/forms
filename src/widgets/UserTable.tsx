@@ -1,6 +1,6 @@
 import { User } from '@/entities/model/users'
 import UserItem from '@/entities/ui/UserItem'
-import { Table, TableCell, TableHead, TableHeader, TableRow, TableBody } from '@/shared/ui/table'
+import { Table, TableHead, TableHeader, TableRow, TableBody } from '@/shared/ui/table'
 
 type UserTableProps = {
   users: User[];
@@ -16,6 +16,8 @@ export default function UserTable({ users }: UserTableProps) {
           <TableHead>Email</TableHead>
           <TableHead>Phone</TableHead>
           <TableHead>Birthdate</TableHead>
+          <TableHead>Employment</TableHead>
+          <TableHead>User Agreement</TableHead>
         </TableRow>
       </TableHeader>
 

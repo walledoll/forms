@@ -13,7 +13,7 @@ export default function NewUser() {
     navigate('/login');
   }
   return (
-    <div className='flex justify-center items-center h-[100vh]'>
+    <div className='flex justify-center items-center h-[100vh] w-full'>
       <UserNew/>
     </div>
   )
