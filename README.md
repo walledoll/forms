@@ -1,54 +1,89 @@
-# React + TypeScript + Vite
+# 📋 Админ-панель пользователей
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Простая и удобная админ-панель для управления пользователями: просмотр, редактирование, создание и удаление записей. Построена с использованием современного стека React-инструментов.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🎥 Демонстрация
 
-## Expanding the ESLint configuration
+<div align="center">
+  <img src="public/demo.gif" alt="Демонстрация функционала" width="800"/>
+</div>
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 🚀 Основные возможности
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+- ✅ **Страница входа** — защищённый доступ к админке  
+- 👥 **Таблица пользователей** — отображение всех пользователей в удобном виде  
+- ✏️ **Редактирование** — клик по строке → форма редактирования с возможностью изменить любые поля  
+- ➕ **Создание нового пользователя** — отдельная форма с валидацией  
+- 🗑️ **Удаление пользователя** — безопасное удаление через кнопку в форме редактирования  
+- 🔐 **Выход из профиля** — кнопка в хедере для завершения сессии  
+- 🛡️ **Валидация форм** — с помощью `Zod` и `react-hook-form`  
+- 📡 **Управление состоянием запросов** — через `React Query`  
+- 🎨 **UI-компоненты** — на основе `shadcn/ui` (стилизованные, доступные, адаптивные)
+
+---
+
+## 🧰 Технологии
+
+- **React 18** + **TypeScript**
+- **React Router DOM** — навигация
+- **React Query** (`@tanstack/react-query`) — управление данными и загрузками
+- **react-hook-form** + **Zod** — валидация и управление формами
+- **shadcn/ui** — компоненты: `Button`, `Card`, `Input`, `Table`, `Popover`, `Calendar`, `Select`, `Checkbox`
+- **Tailwind CSS** — стилизация
+- **Lucide React** — иконки
+- **FSD** — удобная архитектура
+
+---
+
+В вашем `README.md` есть несколько ошибок и дублирований в разделе **«Установка и запуск»**. Вот исправленная и логически выстроенная версия:
+
+---
+
+## 📦 Установка и запуск
+
+> ⚠️ Проект состоит из **двух частей**:  
+> - **Клиент** (React-админка) — этот репозиторий  
+> - **Сервер** (бэкенд API) — отдельный репозиторий
+
+### 1. Клонируйте клиент (админ-панель)
+```bash
+git clone https://github.com/walledoll/forms.git
+cd forms
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+### 2. Установите зависимости клиента
+```bash
+npm install
+# или
+pnpm install
 ```
+
+### 3. Запустите dev-сервер клиента
+```bash
+npm run dev
+```
+
+> 🌐 Админка будет доступна по адресу: [http://localhost:5173](http://localhost:5173)
+
+---
+
+### 4. Запустите бэкенд-сервер (обязательно!)
+
+Клиент **требует работающий сервер API**.  
+Склонируйте и запустите отдельный репозиторий бэкенда (замените URL на реальный):
+
+```bash
+# В новой вкладке терминала
+git clone https://github.com/walledoll/forms-server.git
+cd forms-server
+npm install
+npm run start
+```
+
+> 📡 Убедитесь, что сервер запущен на ожидаемом порту (например, `http://localhost:3000`).  
+---
+
+
+
